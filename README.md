@@ -6,7 +6,7 @@ NOT AN OFFICIAL GOOGLE PRODUCT
 
 ## Tools and Examples
 
-### gcp-data-drice
+### gcp-data-drive
 GCP Data Drive leverages a simple composable url path to a bigquery view and retrieve JSON results.
 
 **Status:  In final revision**
