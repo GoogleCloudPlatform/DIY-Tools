@@ -27,12 +27,17 @@ import (
 
 var errBQParams = errors.New("The url path must be in the form https://host/bq/project/dataset/view")
 
-// bqDataPlatform contains the nessessary information to connect ag get data from Google
-// bigquery. getData() is implmented to satisify the the dataplatform interface.
+// bqDataPlatform contains the necessary information to connect ag get data from Google
+// bigquery. getData() is implemented to satisfy the dataplatform interface.
 type bqDataPlatform struct {
-	client    *bigquery.Client
+	// Pointer to a BQ client
+	client *bigquery.Client
+
+	// Base query string in ANSI SQL
 	dataQuery string
-	query     *bigquery.Query
+
+	// Pointer to the bigquery query
+	query *bigquery.Query
 }
 
 // getData contains the implementation detail for retriving and marshaling data from bq into JSON
@@ -49,6 +54,8 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	res := []map[string]bigquery.Value{}
 
 	// Add the rows to a map string interface for marshaling
+	// TODO: This implementation builds and map in memory. The dataset size must fit in memory. Consider
+	// providing callback fulfillment for large datasets leverging pub/sub and GCS.
 	for {
 		row := make(map[string]bigquery.Value)
 		err := data.Next(&row)
@@ -91,17 +98,25 @@ func getBQInterface(p *dataConnParam) (*bqDataPlatform, error) {
 	return &bqResults, nil
 }
 
-// getBQQuery prepares the SQL statement for the client to run.
+// getBQQuery prepares the SQL statement for the bigquery client to run.
 func (b *bqDataPlatform) getBQQuery(p *dataConnParam) *bigquery.Query {
+
+	// This implementation is intended to leverage the bigquery view provider for queries and filters.
+	// The below query simple gets all rows from the view
 	qs := fmt.Sprintf("select * from `%s`", strings.Join(p.connectionParams, "."))
+
+	// Create and configure the pointer to the query
 	q := b.client.Query(qs)
 	q.UseStandardSQL = true
+
 	return q
 }
 
 // validateConnectionParams is a basic len check of the parameters
-// TODO: Do some basic parsing to validate parameters.
+// TODO: Add additional complex parsing to check the parameters.
 func validateConnectionParams(p *dataConnParam) error {
+
+	// A basic check to make sure we have at least 3 parameters to work with.
 	if len(p.connectionParams) != 3 {
 		return errBQParams
 	}

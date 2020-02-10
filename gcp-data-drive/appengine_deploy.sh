@@ -1,3 +1,3 @@
 cd cmd/webserver
-gcloud app deploy app.yaml --project golang-quicklab -f
+gcloud app deploy app.yaml --project $1 -q
 cd -

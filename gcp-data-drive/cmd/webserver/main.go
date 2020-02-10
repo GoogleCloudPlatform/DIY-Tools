@@ -20,11 +20,10 @@ import (
 	"os"
 )
 
-func init() {
-	http.HandleFunc("/", getJSONData)
-}
-
 func main() {
+
+	// Register the initial handler
+	http.HandleFunc("/", getJSONData)
 
 	// Boiler plate code from the example docs for appengine hosting.
 	port := os.Getenv("PORT")
@@ -40,8 +39,6 @@ func main() {
 }
 
 func getJSONData(w http.ResponseWriter, r *http.Request) {
-	// Prep auth - this will return something to be used in the query
-	authHandle(w, r)
 
 	// Parse the URL
 	conParams, err := parseDDURL(r)
@@ -65,11 +62,15 @@ func getJSONData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// The results will always be in JSON format. Settting that header here
 	w.Header().Add("Content-Type", "application/json")
+
+	// Writing the bytes to the IO writer.
 	w.Write(bts)
 
 }
 
+// handleError contains custom error handling implementation
 func handleError(w http.ResponseWriter, r *http.Request, err error) {
 	http.Error(w, err.Error(), 500)
 }

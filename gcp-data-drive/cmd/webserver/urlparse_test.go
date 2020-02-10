@@ -8,8 +8,7 @@ import (
 
 func TestUrlNegative(t *testing.T) {
 	badUrls := []string{
-		"http://fake.com/",
-		"http://fake.com",
+		"https://fake.com/",
 		"fake.com",
 	}
 

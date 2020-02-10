@@ -21,7 +21,7 @@ import (
 
 // dataConnParam is used for parsed parameter consumption by the requested platform
 type dataConnParam struct {
-	// platfrom is a 2 charter indicator of the target platform
+	// platfrom is a 2 charter indicator of the target platform. Accepted values are (bq,fs)
 	platform string
 
 	// connectionParams is the remaining path from the url request split on a "/"

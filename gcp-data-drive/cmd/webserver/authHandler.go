@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// This will return something // Stubb for now
+// TODO: Implement this.
 func authHandle(w http.ResponseWriter, r *http.Request) {
 
 }
