@@ -1,5 +1,5 @@
 # gcp-data-drive
-GCP Data Drive leverages a simple composable url path to retrieve data in JSON formats from support GCP data platforms. bigquery and firestore are currently supported.
+GCP Data Drive leverages a simple composable url path to retrieve data in JSON formats from supported GCP data platforms. bigquery and firestore are currently supported.
 
 ## Installation
 ### Deploy to appengine

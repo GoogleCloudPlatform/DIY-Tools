@@ -27,7 +27,7 @@ import (
 
 var errBQParams = errors.New("The url path must be in the form https://host/bq/project/dataset/view")
 
-// bqDataPlatform contains the necessary information to connect ag get data from Google
+// bqDataPlatform contains the necessary information to connect and get data from Google
 // bigquery. getData() is implemented to satisfy the dataplatform interface.
 type bqDataPlatform struct {
 	// Pointer to a BQ client

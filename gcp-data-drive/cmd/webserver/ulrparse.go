@@ -31,13 +31,14 @@ type dataConnParam struct {
 
 // parseDDURL detects and shapes the data platfrom request.
 func parseDDURL(r *http.Request) (*dataConnParam, error) {
+
 	// Trimming the leading prefix and splitting the path in to an array
 	location := strings.Split(strings.TrimPrefix(r.URL.Path, "/"), "/")
 	if len(location) < 1 {
 		return nil, errBadURLPattern
 	}
 
-	// This switch statement provide and open implementation for adding new platform providers.
+	// Switch statement is used to allow easy implementation of additional providers.
 	switch location[0] {
 	case "bq", "fs":
 		return &dataConnParam{

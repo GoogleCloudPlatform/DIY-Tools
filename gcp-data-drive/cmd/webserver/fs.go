@@ -27,6 +27,7 @@ var errFSParams = errors.New("The url path must be in the form https://host/fs/p
 
 // fsDataPlatform implements getData()
 type fsDataPlatform struct {
+
 	// Pointer to the firestore client
 	client *firestore.Client
 
@@ -37,8 +38,8 @@ type fsDataPlatform struct {
 	isDoc bool
 }
 
-// getData is the implementatin specific to firestore for extracting
-// a document of collection of documents. It satifies the interface needed
+// getData is the implementation specific to firestore for extracting
+// a document of collection of documents. It satisfies the interface needed
 // in the web handler
 func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 
@@ -61,11 +62,11 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		return nil, err
 	}
 
-	// Create a map to hold our BQ result set.
+	// Create a map to hold our firestore result set.
 	res := []map[string]interface{}{}
 
 	for _, doc := range docs {
-		// Adding the doc id to the result set so that a direct get is compisable.
+		// Adding the doc id to the result of ease of use.
 		d := doc.Data()
 		d["docid"] = doc.Ref.ID
 
