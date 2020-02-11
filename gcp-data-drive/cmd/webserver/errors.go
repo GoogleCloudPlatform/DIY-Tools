@@ -19,6 +19,9 @@ import (
 )
 
 var (
-	errBadURLPattern      = errors.New("BadAPIRequest  Please provide a request in the following pattern:\n https://<<hostname>>/<<data-gcp-project-target>>/<<platform parameter 1>>/<<platform parameter 2>>")
-	errUnknowDataPlatform = errors.New("UnknowDataPlatform bigquery [bq] and firestore [fs] are the only support platform types at this time.")
+	errBadURLPattern = errors.New("BadAPIRequest  Please provide a request in the following pattern:\n
+	https://<<hostname>>/<<data-gcp-project-target>>/<<platform parameter 1>>/<<platform parameter 2>>")
+	
+	errUnknowDataPlatform = errors.New("UnknowDataPlatform bigquery [bq] and firestore [fs] are the only support
+	platform types at this time.")
 )
