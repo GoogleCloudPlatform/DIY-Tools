@@ -4,7 +4,7 @@ GCP Data Drive leverages a simple composable url path to retrieve data in JSON f
 ## Installation
 Deploy to appengine
 
-:warning: Edit the deploy script and app.yaml below for your needs. This command will deploy and new version of the default appengine service.
+:warning: Edit the deploy script and app.yaml below for your needs. Used as it, the command below will deploy and new version of the default appengine service.
 ```bash
 git clone https://github.com/GoogleCloudPlatform/DIY-Tools.git
 cd DIY-Tools/gcp-data-drive
