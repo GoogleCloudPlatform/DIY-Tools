@@ -2,7 +2,7 @@
 GCP Data Drive leverages a simple composable url path to retrieve data in JSON formats from support GCP data platforms. bigquery and firestore are currently supported.
 
 ## Installation
-Deploy to appengine
+### Deploy to appengine
 
 :warning: Edit the deploy script and app.yaml below for your needs. Used as it, the command below will deploy and new version of the default appengine service.
 ```bash
