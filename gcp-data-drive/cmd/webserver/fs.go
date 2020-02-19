@@ -23,8 +23,6 @@ import (
 	"cloud.google.com/go/firestore"
 )
 
-var errFSParams = errors.New("The url path must be in the form https://host/fs/project/collection/doc/collection/doc")
-
 // fsDataPlatform implements getData()
 type fsDataPlatform struct {
 
@@ -76,7 +74,7 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	return json.Marshal(res)
 }
 
-func getFSInterface(p *dataConnParam) (*fsDataPlatform, error) {
+func newFSPlatform(p *dataConnParam) (*fsDataPlatform, error) {
 
 	// Create a platform variable
 	var fsResults fsDataPlatform
@@ -108,7 +106,7 @@ func getFSInterface(p *dataConnParam) (*fsDataPlatform, error) {
 // TODO: Do some basic parsing to validate parameters.
 func validateFSConnectionParams(p *dataConnParam) error {
 	if len(p.connectionParams) < 1 {
-		return errBQParams
+		return errors.New("The url path must be in the form https://host/fs/project/collection/doc/collection/doc")
 	}
 	return nil
 }

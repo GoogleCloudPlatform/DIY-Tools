@@ -25,10 +25,8 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-var errBQParams = errors.New("the url path must be in the form https://host/bq/project/dataset/view")
-
 // bqDataPlatform contains the necessary information to connect and get data from
-// Bigquery. getData() is implemented to satisfy the dataplatform interface
+// Bigquery getData() is implemented to satisfy the dataplatform interface
 type bqDataPlatform struct {
 	// Pointer to a BQ client
 	client *bigquery.Client
@@ -49,7 +47,7 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		return nil, err
 	}
 
-	// Create a map to hold our BQ result set.
+	// Create a map to hold our BQ result set
 	res := []map[string]bigquery.Value{}
 
 	// Add the rows to a map string interface for marshaling
@@ -73,40 +71,32 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 
 // getBQInterface creates and populates the bq platform client requirement and returns
 // a usable getData() method
-func newBQ(p *dataConnParam) (*bqDataPlatform, error) {
+func newBQPlatform(p *dataConnParam) (*bqDataPlatform, error) {
 	// Validate the connection params
-	err := validateConnectionParams(p)
+	if err := validateConnectionParams(p); err != nil {
+		return nil, err
+	}
+
+	// Get a bq client
+	c, err := bigquery.NewClient(context.Background(), p.connectionParams[0])
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a platform variable
-	var bqResults bqDataPlatform
-
-	// Setup the connection to BQ
-	bqResults.client, err = bigquery.NewClient(context.Background(), p.connectionParams[0])
-	if err != nil {
-		return nil, err
-	}
-
-	// Create the Big Query from the parameters
-	bqResults.query = bqResults.getBQQuery(p)
-
-	// Return the type
-	return &bqResults, nil
-}
-
-// getBQQuery prepares the SQL statement for the bigquery client to run.
-func (b *bqDataPlatform) getBQQuery(p *dataConnParam) *bigquery.Query {
-	// This implementation is intended to leverage the bigquery view provider for queries and filters.
-	// The below query simple gets all rows from the view
+	// Create a BQ SQL Query string from the parameters
 	qs := fmt.Sprintf("select * from `%s`", strings.Join(p.connectionParams, "."))
 
-	// Create and configure the pointer to the query
-	q := b.client.Query(qs)
+	// Create the BQ query
+	q := c.Query(qs)
+
+	// Set the standard SQL option
 	q.UseStandardSQL = true
 
-	return q
+	return &bqDataPlatform{
+		query:  q,
+		client: c,
+	}, nil
+
 }
 
 // validateConnectionParams is a basic len check of the parameters
@@ -114,7 +104,7 @@ func (b *bqDataPlatform) getBQQuery(p *dataConnParam) *bigquery.Query {
 func validateConnectionParams(p *dataConnParam) error {
 	// A basic check to make sure we have at least 3 parameters to work with
 	if len(p.connectionParams) != 3 {
-		return errBQParams
+		return errors.New("the url path must be in the form https://host/bq/project/dataset/view")
 	}
 	return nil
 }

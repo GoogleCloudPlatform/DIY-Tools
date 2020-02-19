@@ -54,8 +54,7 @@ func getJSONData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get the []byte results
-	d := *pd
-	bts, err := d.getData(r.Context())
+	bts, err := pd.getData(r.Context())
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return

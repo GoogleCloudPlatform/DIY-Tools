@@ -15,7 +15,7 @@ package main
 
 import (
 	"context"
-	"errors"
+	"fmt"
 )
 
 // dataPlatform defines the methods needed for consumtion by the web serving handler
@@ -26,18 +26,18 @@ type dataPlatform interface {
 
 // parseDataPlatform detects the requested data platform and returns an interface
 // pointer to the web handler
-func parseDataPlatform(p *dataConnParam) (*dataPlatform, error) {
+func parseDataPlatform(p *dataConnParam) (dataPlatform, error) {
 	var plat dataPlatform
 	var err error
 
 	switch p.platform {
 	case "bq":
-		plat, err = newBQ(p)
-		return &plat, err
+		plat, err = newBQPlatform(p)
+		return plat, err
 	case "fs":
-		plat, err = getFSInterface(p)
-		return &plat, err
+		plat, err = newFSPlatform(p)
+		return plat, err
 	}
 
-	return nil, errors.New("UnknowDataPlatform bigquery [bq] and firestore [fs] are the only support platform types at this time.")
+	return nil, fmt.Errorf(`unknown data platform %q: bigquery ("bq") and firestore ("fs") supported`, p.platform)
 }
