@@ -27,16 +27,14 @@ type dataPlatform interface {
 // parseDataPlatform detects the requested data platform and returns an interface
 // pointer to the web handler
 func parseDataPlatform(p *dataConnParam) (dataPlatform, error) {
-	var plat dataPlatform
-	var err error
 
 	switch p.platform {
 	case "bq":
-		plat, err = newBQPlatform(p)
-		return plat, err
+		return newBQPlatform(p)
+
 	case "fs":
-		plat, err = newFSPlatform(p)
-		return plat, err
+		return newFSPlatform(p)
+
 	}
 
 	return nil, fmt.Errorf(`unknown data platform %q: bigquery ("bq") and firestore ("fs") supported`, p.platform)

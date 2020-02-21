@@ -106,7 +106,7 @@ func newFSPlatform(p *dataConnParam) (*fsDataPlatform, error) {
 // TODO: Do some basic parsing to validate parameters.
 func validateFSConnectionParams(p *dataConnParam) error {
 	if len(p.connectionParams) < 1 {
-		return errors.New("The url path must be in the form https://host/fs/project/collection/doc/collection/doc")
+		return errors.New("the url path must be in the form https://host/fs/project/collection/doc/collection/doc")
 	}
 	return nil
 }

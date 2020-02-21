@@ -15,6 +15,7 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"reflect"
 	"testing"
@@ -45,6 +46,7 @@ func TestUrlProviders(t *testing.T) {
 	respRes := dataConnParam{
 		platform:         "bq",
 		connectionParams: []string{"project", "dataset", "view"},
+		ctx:              context.Background(),
 	}
 
 	for _, u := range urls {

@@ -78,7 +78,7 @@ func newBQPlatform(p *dataConnParam) (*bqDataPlatform, error) {
 	}
 
 	// Get a bq client
-	c, err := bigquery.NewClient(context.Background(), p.connectionParams[0])
+	c, err := bigquery.NewClient(p.ctx, p.connectionParams[0])
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func newBQPlatform(p *dataConnParam) (*bqDataPlatform, error) {
 // validateConnectionParams is a basic len check of the parameters
 // TODO: Add additional complex parsing to check the parameters.
 func validateConnectionParams(p *dataConnParam) error {
-	// A basic check to make sure we have at least 3 parameters to work with
+	// A basic check to make sure we have at least 3 parameters to work with.
 	if len(p.connectionParams) != 3 {
 		return errors.New("the url path must be in the form https://host/bq/project/dataset/view")
 	}
