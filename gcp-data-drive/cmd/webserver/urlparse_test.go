@@ -28,8 +28,11 @@ func TestUrlNegative(t *testing.T) {
 	}
 
 	for _, u := range badUrls {
-		// Create a request test from the URL
+		// Create a request test from the URL.
 		req, err := http.NewRequest("GET", u, nil)
+		if err != nil {
+			t.Fatalf(err.Error())
+		}
 
 		_, err = parseDDURL(req)
 
@@ -40,13 +43,20 @@ func TestUrlNegative(t *testing.T) {
 	}
 }
 
-func TestUrlProviders(t *testing.T) {
+func TestPlatfromCreate(t *testing.T) {
+
+	type platfromTests struct{
+		url string,
+		dcp dataConnParam,
+		err error,
+	}
+
 	urls := []string{"http://host/bq/project/dataset/view", "https://host/bq/project/dataset/view"}
 
 	respRes := dataConnParam{
 		platform:         "bq",
 		connectionParams: []string{"project", "dataset", "view"},
-		ctx:              context.Background(),
+		requestContext:   context.Background(),
 	}
 
 	for _, u := range urls {

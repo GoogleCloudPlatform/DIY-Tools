@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// TODO: Implement this.
+// TODO: Implement to handle passthru auth.
 func authHandle(w http.ResponseWriter, r *http.Request) {
 
 }

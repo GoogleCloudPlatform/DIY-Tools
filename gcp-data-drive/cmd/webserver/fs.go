@@ -23,25 +23,23 @@ import (
 	"cloud.google.com/go/firestore"
 )
 
-// fsDataPlatform implements getData()
+// fsDataPlatform contains the necessary information to connect and get data from Firestore platfrom.
 type fsDataPlatform struct {
 
-	// Pointer to the firestore client
+	// client is a pointer to the firestore client.
 	client *firestore.Client
 
-	// The assembled path to the document or collection in firestore
+	// itemPath is an assembled path to the document or collection in firestore.
 	itemPath string
 
-	// Indicates if the item path prepresents a firestore document or collection
+	// isDoc indicates if the item path prepresents a firestore document or collection
 	isDoc bool
 }
 
-// getData is the implementation specific to firestore for extracting
-// a document of collection of documents. It satisfies the interface needed
-// in the web handler
+// getData is the implementation specific to firestore for extracting a document of collection of documents.
 func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 
-	// If the path is to a document, fulfill with a single doc request
+	// If the path is to a document, fulfill the request with the document.
 	if f.isDoc {
 		doc, err := f.client.Doc(f.itemPath).Get(ctx)
 		if err != nil {
@@ -51,10 +49,10 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		return json.Marshal(&docItem)
 	}
 
-	// Otherwise the request is for a collection
+	// Otherwise the request is for a collection.
 	q := f.client.Collection(f.itemPath)
 
-	// Get all the documents in a single read. Only a single read cost is charged.
+	// Get all the documents in a single read. Only a single read is charged.
 	docs, err := q.Documents(ctx).GetAll()
 	if err != nil {
 		return nil, err
@@ -64,7 +62,7 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	res := []map[string]interface{}{}
 
 	for _, doc := range docs {
-		// Adding the doc id to the result of ease of use.
+		// Adding the doc id to the result for ease of use.
 		d := doc.Data()
 		d["docid"] = doc.Ref.ID
 
@@ -76,34 +74,34 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 
 func newFSPlatform(p *dataConnParam) (*fsDataPlatform, error) {
 
-	// Create a platform variable
+	// Create a platform variable.
 	var fsResults fsDataPlatform
 
-	// Validate the connection params
+	// Validate the connection parameters.
 	err := validateFSConnectionParams(p)
 	if err != nil {
 		return nil, err
 	}
 
-	// Setup the connection to BQ
-	fsResults.client, err = firestore.NewClient(context.Background(), p.connectionParams[0])
+	// Create the connection to Firestore.
+	fsResults.client, err = firestore.NewClient(p.requestContext, p.connectionParams[0])
 	if err != nil {
 		return nil, err
 	}
 
-	// Firestore document pattern is collection/doc/collection/doc...
-	// if the item path is even then we know it is not a doc and the
-	// collection get pattern applies
+	// Firestore document pattern is collection/doc/collection/doc... if the item path is even then we know
+	// it is not a doc and the collection get logic applies.
 	fsResults.isDoc = len(p.connectionParams[1:])%2 == 0
 
+	// Join the Firestore doc path from the parsed parameters.
 	fsResults.itemPath = strings.Join(p.connectionParams[1:], "/")
 
-	// Return the type
+	// Return the the platform struct.
 	return &fsResults, nil
 }
 
-// validateConnectionParams is a basic len check of the parameters
-// TODO: Do some basic parsing to validate parameters.
+// validateConnectionParams is a basic len check of the parameters.
+// TODO: Do additional parsing to validate parameters.
 func validateFSConnectionParams(p *dataConnParam) error {
 	if len(p.connectionParams) < 1 {
 		return errors.New("the url path must be in the form https://host/fs/project/collection/doc/collection/doc")

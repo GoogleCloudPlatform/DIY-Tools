@@ -5,7 +5,7 @@ GCP Data Drive leverages a composable url path to retrieve data in JSON formats 
 ### Deploy to App Engine
 The shell script below can be executed from a bash shell.
 
-:warning: Edit the deploy script and app.yaml below for your needs. Used as it, the command below will deploy and new version of the default App Engine service.
+:warning: Edit the deploy script and app.yaml for your needs. Used as is, the command below will deploy and new version of the default App Engine service.
 
 ```bash
 git clone https://github.com/GoogleCloudPlatform/DIY-Tools.git

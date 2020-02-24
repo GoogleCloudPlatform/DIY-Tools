@@ -18,14 +18,13 @@ import (
 	"fmt"
 )
 
-// dataPlatform defines the methods needed for consumtion by the web serving handler
+// dataPlatform defines the methods needed for consumtion by the web serving handler.
 type dataPlatform interface {
-	// getData returns the slice of bytes that have been marshaled from the underlying data source
+	// getData returns the slice of bytes that have been marshaled from the underlying data source.
 	getData(ctx context.Context) ([]byte, error)
 }
 
-// parseDataPlatform detects the requested data platform and returns an interface
-// pointer to the web handler
+// parseDataPlatform detects the requested data platform and returns an interface to specified data platform.
 func parseDataPlatform(p *dataConnParam) (dataPlatform, error) {
 
 	switch p.platform {

@@ -22,7 +22,7 @@ import (
 
 func main() {
 
-	// Register the initial handler
+	// Register the initial HTTP handler.
 	http.HandleFunc("/", getJSONData)
 
 	port := os.Getenv("PORT")
@@ -39,28 +39,28 @@ func main() {
 
 func getJSONData(w http.ResponseWriter, r *http.Request) {
 
-	// Parse the URL
+	// Parse the request URL.
 	conParams, err := parseDDURL(r)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	// parse the platform interface
+	// Parse the platform interface from the URL path.
 	pd, err := parseDataPlatform(conParams)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	// get the []byte results
+	// Get the []byte results from the requested data platfrom.
 	bts, err := pd.getData(r.Context())
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	// The results will always be in JSON format. Settting that header here
+	// Setting the default content-type header to JSON.
 	w.Header().Add("Content-Type", "application/json")
 
 	// Writing the bytes to the IO writer.
