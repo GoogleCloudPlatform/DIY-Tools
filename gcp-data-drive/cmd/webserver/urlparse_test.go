@@ -45,10 +45,10 @@ func TestUrlNegative(t *testing.T) {
 
 func TestPlatfromCreate(t *testing.T) {
 
-	type platfromTests struct{
-		url string,
-		dcp dataConnParam,
-		err error,
+	type platfromTests struct {
+		url string
+		dcp dataConnParam
+		err error
 	}
 
 	urls := []string{"http://host/bq/project/dataset/view", "https://host/bq/project/dataset/view"}

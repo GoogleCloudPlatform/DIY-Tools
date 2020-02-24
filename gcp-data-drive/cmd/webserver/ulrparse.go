@@ -52,5 +52,5 @@ func parseDDURL(r *http.Request) (*dataConnParam, error) {
 		}, nil
 
 	}
-	return nil, errors.New(`unknown data platform bigquery ("bq") and firestore ("fs") are the only support platform types at this time`)
+	return nil, errors.New(`UnknownDataPlatform: bigquery ("bq") and firestore ("fs") are the only support platform types at this time`)
 }
