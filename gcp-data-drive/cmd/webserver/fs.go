@@ -46,6 +46,7 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 			return nil, err
 		}
 		docItem := doc.Data()
+		f.client.Close()
 		return json.Marshal(&docItem)
 	}
 
@@ -69,35 +70,31 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		// Append the doc to the map so it can be marshaled.
 		res = append(res, d)
 	}
+	f.client.Close()
 	return json.Marshal(res)
 }
 
 func newFSPlatform(ctx context.Context, p *dataConnParam) (*fsDataPlatform, error) {
 
-	// Create a platform variable.
-	var fsResults fsDataPlatform
-
 	// Validate the connection parameters.
-	err := validateFSConnectionParams(p)
-	if err != nil {
+	if err := validateFSConnectionParams(p); err != nil {
 		return nil, err
 	}
 
 	// Create the connection to Firestore.
-	fsResults.client, err = firestore.NewClient(ctx, p.connectionParams[0])
-	if err != nil {
-		return nil, err
-	}
+	client, err := firestore.NewClient(ctx, p.connectionParams[0])
 
-	// Firestore document pattern is collection/doc/collection/doc... if the item path is even then we know
-	// it is not a doc and the collection get logic applies.
-	fsResults.isDoc = len(p.connectionParams[1:])%2 == 0
+	return &fsDataPlatform{
+		client: client,
 
-	// Join the Firestore doc path from the parsed parameters.
-	fsResults.itemPath = strings.Join(p.connectionParams[1:], "/")
+		// Firestore document pattern is collection/doc/collection/doc... if the item path is even then we know
+		// it is not a doc and the collection get logic applies.
+		isDoc: len(p.connectionParams[1:])%2 == 0,
 
-	// Return the the platform struct.
-	return &fsResults, nil
+		// Join the Firestore doc path from the parsed parameters.
+		itemPath: strings.Join(p.connectionParams[1:], "/"),
+	}, err
+
 }
 
 // validateConnectionParams is a basic len check of the parameters.
