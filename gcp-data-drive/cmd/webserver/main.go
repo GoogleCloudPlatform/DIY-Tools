@@ -47,7 +47,7 @@ func getJSONData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse the platform interface from the URL path.
-	pd, err := parseDataPlatform(conParams)
+	pd, err := parseDataPlatform(r.Context(), conParams)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return

@@ -69,14 +69,14 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 
 // getBQInterface creates and populates the Bigquery platform client requirementa and returns
 // a usable getData() method.
-func newBQPlatform(p *dataConnParam) (*bqDataPlatform, error) {
+func newBQPlatform(ctx context.Context, p *dataConnParam) (*bqDataPlatform, error) {
 	// Validate the connection params and return and error if they are not compatible.
 	if err := validateConnectionParams(p); err != nil {
 		return nil, err
 	}
 
 	// Create the Bigquery client.
-	c, err := bigquery.NewClient(p.requestContext, p.connectionParams[0])
+	c, err := bigquery.NewClient(ctx, p.connectionParams[0])
 	if err != nil {
 		return nil, err
 	}

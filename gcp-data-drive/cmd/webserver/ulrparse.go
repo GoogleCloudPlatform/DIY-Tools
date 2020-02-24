@@ -15,7 +15,6 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"net/http"
 	"strings"
@@ -28,9 +27,6 @@ type dataConnParam struct {
 
 	// connectionParams is the remaining path from the url request split on a "/" charter.
 	connectionParams []string
-
-	// requestContext is the orginal http request context.
-	requestContext context.Context
 }
 
 // parseDDURL detects and shapes the data platfrom request.
@@ -48,7 +44,6 @@ func parseDDURL(r *http.Request) (*dataConnParam, error) {
 		return &dataConnParam{
 			platform:         location[0],
 			connectionParams: location[1:],
-			requestContext:   r.Context(),
 		}, nil
 
 	}

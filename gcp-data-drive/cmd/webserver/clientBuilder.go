@@ -25,14 +25,14 @@ type dataPlatform interface {
 }
 
 // parseDataPlatform detects the requested data platform and returns an interface to specified data platform.
-func parseDataPlatform(p *dataConnParam) (dataPlatform, error) {
+func parseDataPlatform(ctx context.Context, p *dataConnParam) (dataPlatform, error) {
 
 	switch p.platform {
 	case "bq":
-		return newBQPlatform(p)
+		return newBQPlatform(ctx, p)
 
 	case "fs":
-		return newFSPlatform(p)
+		return newFSPlatform(ctx, p)
 
 	}
 

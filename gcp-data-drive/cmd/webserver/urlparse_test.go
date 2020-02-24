@@ -15,7 +15,6 @@
 package main
 
 import (
-	"context"
 	"net/http"
 	"reflect"
 	"testing"
@@ -56,7 +55,6 @@ func TestPlatfromCreate(t *testing.T) {
 	respRes := dataConnParam{
 		platform:         "bq",
 		connectionParams: []string{"project", "dataset", "view"},
-		requestContext:   context.Background(),
 	}
 
 	for _, u := range urls {

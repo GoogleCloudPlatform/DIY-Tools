@@ -72,7 +72,7 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	return json.Marshal(res)
 }
 
-func newFSPlatform(p *dataConnParam) (*fsDataPlatform, error) {
+func newFSPlatform(ctx context.Context, p *dataConnParam) (*fsDataPlatform, error) {
 
 	// Create a platform variable.
 	var fsResults fsDataPlatform
@@ -84,7 +84,7 @@ func newFSPlatform(p *dataConnParam) (*fsDataPlatform, error) {
 	}
 
 	// Create the connection to Firestore.
-	fsResults.client, err = firestore.NewClient(p.requestContext, p.connectionParams[0])
+	fsResults.client, err = firestore.NewClient(ctx, p.connectionParams[0])
 	if err != nil {
 		return nil, err
 	}
