@@ -22,6 +22,7 @@ import (
 type dataPlatform interface {
 	// getData returns the slice of bytes that have been marshaled from the underlying data source.
 	getData(ctx context.Context) ([]byte, error)
+	close()
 }
 
 // parseDataPlatform detects the requested data platform and returns an interface to specified data platform.

@@ -63,8 +63,13 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		}
 		res = append(res, row)
 	}
-	b.client.Close()
+
 	return json.Marshal(&res)
+}
+
+// close will close the client connection to bigquery
+func (b *bqDataPlatform) close() {
+	b.client.Close()
 }
 
 // getBQInterface creates and populates the Bigquery platform client requirementa and returns

@@ -46,7 +46,6 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 			return nil, err
 		}
 		docItem := doc.Data()
-		f.client.Close()
 		return json.Marshal(&docItem)
 	}
 
@@ -70,8 +69,13 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		// Append the doc to the map so it can be marshaled.
 		res = append(res, d)
 	}
-	f.client.Close()
+
 	return json.Marshal(res)
+}
+
+// close will close the firestore client connection
+func (f *fsDataPlatform) close() {
+	f.client.Close()
 }
 
 func newFSPlatform(ctx context.Context, p *dataConnParam) (*fsDataPlatform, error) {
