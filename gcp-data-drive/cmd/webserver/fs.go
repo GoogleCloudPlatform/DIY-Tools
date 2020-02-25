@@ -74,8 +74,11 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 }
 
 // close will close the firestore client connection
-func (f *fsDataPlatform) close() {
-	f.client.Close()
+func (f *fsDataPlatform) close() error {
+	if err := f.client.Close(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func newFSPlatform(ctx context.Context, p *dataConnParam) (*fsDataPlatform, error) {
