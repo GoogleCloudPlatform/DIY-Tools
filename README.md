@@ -7,6 +7,6 @@ NOT AN OFFICIAL GOOGLE PRODUCT
 ## Tools and Examples
 
 ### gcp-data-drive
-GCP Data Drive leverages a simple composable url path to a bigquery view and retrieve JSON results.
+GCP Data Drive leverages a simple composable url path to retrieve data in JSON formats from support GCP data platforms. Bigquery and firestore are currently supported.
 
 **Status:  In final revision**
