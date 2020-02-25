@@ -11,8 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-module gcpdatadrive
+module github.com/GoogleCloudPlatform/DIY-Tools/gcpdatadrive
 
 go 1.13
 
-require cloud.google.com/go/firestore v1.1.1 // indirect
+require (
+	cloud.google.com/go/bigquery v1.0.1
+	cloud.google.com/go/firestore v1.1.1
+	google.golang.org/api v0.14.0
+)

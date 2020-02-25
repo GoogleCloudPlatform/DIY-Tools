@@ -18,12 +18,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/GoogleCloudPlatform/DIY-Tools/gcpdatadrive"
 )
 
 func main() {
 
 	// Register the initial HTTP handler.
-	http.HandleFunc("/", getJSONData)
+	http.HandleFunc("/", gcpdatadrive.GetJSONData)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -35,36 +37,4 @@ func main() {
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func getJSONData(w http.ResponseWriter, r *http.Request) {
-
-	// Parse the request URL.
-	conParams, err := parseDDURL(r)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	// Parse the platform interface from the URL path.
-	pd, err := parseDataPlatform(r.Context(), conParams)
-	defer pd.close()
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	// Get the []byte results from the requested data platfrom.
-	bts, err := pd.getData(r.Context())
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	// Setting the default content-type header to JSON.
-	w.Header().Add("Content-Type", "application/json")
-
-	// Writing the bytes to the IO writer.
-	w.Write(bts)
-
 }
