@@ -19,7 +19,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/GoogleCloudPlatform/DIY-Tools/gcpdatadrive"
+	"github.com/GoogleCloudPlatform/DIY-Tools/gcp-data-drive/gcpdatadrive"
 )
 
 func main() {

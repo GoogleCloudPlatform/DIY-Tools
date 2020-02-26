@@ -42,7 +42,6 @@ func TestParseDDURL(t *testing.T) {
 				t.Fatalf("\nHave connection param:\n%+v\nWant connection param:\n%+v", *pd, *item.connParam)
 			}
 		}
-		t.Logf("%+v", pd)
 		if item.err != nil {
 			if err.Error() != item.err.Error() {
 				t.Fatalf("\nHave error:\n%s\nWant error:\n%s", err, item.err)
