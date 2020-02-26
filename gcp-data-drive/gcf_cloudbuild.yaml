@@ -1,0 +1,3 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions','deploy','gcp-data-drive','--trigger-http','--runtime','go113','--entry-point','GetJSONData', '--project','$PROJECT_ID','--memory','2048']
