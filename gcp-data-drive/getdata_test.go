@@ -64,6 +64,11 @@ func TestParseDataPlatfrom(t *testing.T) {
 				t.Fatalf("Have:%T Want:*bqDataPlatform", dp)
 			}
 		}
+		if pd.platform == "fs" {
+			if _, ok := dp.(*fsDataPlatform); !ok {
+				t.Fatalf("Have:%T Want:*fsDataPlatform", dp)
+			}
+		}
 	}
 
 }
