@@ -39,12 +39,12 @@ func TestParseDDURL(t *testing.T) {
 		pd, err := parseDDURL(req)
 		if item.connParam != nil {
 			if !reflect.DeepEqual(*pd, *item.connParam) {
-				t.Fatalf("\nHave connection param:\n%+v\nWant connection param:\n%+v", *pd, *item.connParam)
+				t.Errorf("\nHave connection param:\n%+v\nWant connection param:\n%+v", *pd, *item.connParam)
 			}
 		}
 		if item.err != nil {
 			if err.Error() != item.err.Error() {
-				t.Fatalf("\nHave error:\n%s\nWant error:\n%s", err, item.err)
+				t.Errorf("\nHave error:\n%s\nWant error:\n%s", err, item.err)
 			}
 		}
 	}
@@ -57,16 +57,16 @@ func TestParseDataPlatfrom(t *testing.T) {
 		pd, _ := parseDDURL(req)
 		dp, err := parseDataPlatform(context.Background(), pd)
 		if err != nil {
-			t.Fatalf("%s", err.Error())
+			t.Errorf("%s", err.Error())
 		}
 		if pd.platform == "bq" {
 			if _, ok := dp.(*bqDataPlatform); !ok {
-				t.Fatalf("Have:%T Want:*bqDataPlatform", dp)
+				t.Errorf("Have:%T Want:*bqDataPlatform", dp)
 			}
 		}
 		if pd.platform == "fs" {
 			if _, ok := dp.(*fsDataPlatform); !ok {
-				t.Fatalf("Have:%T Want:*fsDataPlatform", dp)
+				t.Errorf("Have:%T Want:*fsDataPlatform", dp)
 			}
 		}
 	}
