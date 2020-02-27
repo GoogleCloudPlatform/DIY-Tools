@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cd cmd/webserver
-gcloud app deploy app.yaml --project $1 -q
-cd -
+steps:
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone','--single-branch','--branch','refactor_for_cloud_functions','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app','deploy','app.yaml','--project','$PROJECT_ID']
+  dir: 'DIY-Tools/gcp-data-drive/cmd/webserver'
