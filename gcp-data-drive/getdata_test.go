@@ -72,22 +72,14 @@ func TestParseDDURL(t *testing.T) {
 
 func TestParseDataPlatfrom(t *testing.T) {
 	var platformDetectTests = []struct {
-		sURL      string
-		connParam *dataConnParam
-		isErr     bool
+		in string
 	}{
-		{"https://example.com/bq/project/dataset/view",
-			&dataConnParam{platform: "bq", connectionParams: []string{"project", "dataset", "view"}},
-			false,
-		},
-		{"https://example.com/fs/project/collection/document",
-			&dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}},
-			false,
-		},
+		{"https://example.com/bq/project/dataset/view"},
+		{"https://example.com/fs/project/collection/document"},
 	}
 
 	for _, item := range platformDetectTests {
-		req, err := http.NewRequest("GET", item.sURL, nil)
+		req, err := http.NewRequest("GET", item.in, nil)
 		if err != nil {
 			t.Errorf("parseDataPlatform() Error creating fake http request.")
 		}
