@@ -19,7 +19,7 @@
 FROM golang:1.13 as builder
 
 # Create and change to the app directory.
-WORKDIR DIY-Tools/gcp-data-drive/cmd/webserver
+WORKDIR DIY-Tools/gcp-data-drive
 
 # Retrieve application dependencies.
 # This allows the container build to reuse cached dependencies.
@@ -39,7 +39,7 @@ FROM gcr.io/distroless/static
 # RUN apk add --no-cache ca-certificates
 
 # Copy the binary to the production image from the builder stage.
-COPY --from=builder gcp-data-drive /gcp-data-drive
+COPY --from=builder cmd/webserver/gcp-data-drive /gcp-data-drive
 
 # Run the web service on container startup.
 CMD ["/gcp-data-drive"]
