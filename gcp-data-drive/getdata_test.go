@@ -11,62 +11,106 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package gcpdatadrive
 
 import (
 	"context"
-	"errors"
 	"net/http"
 	"reflect"
 	"testing"
 )
 
 var parseTests = []struct {
-	sURL      string
-	connParam *dataConnParam
-	err       error
+	in    string
+	out   *dataConnParam
+	isErr bool
 }{
-	{"https://fake.com/bp/project/dataset/view", nil, errors.New(`UnknownDataPlatform: bigquery ("bq") and firestore ("fs") are the only support platform types at this time`)},
-	{"https://fake.com/bq", nil, errors.New("BadAPIRequest  Please provide a request in the following pattern\nhttps://<<hostname>>/<<data-gcp-project-target>>/platfromid/<<platform parameter 1>>/<<platform parameter 2>>")},
-	{"https://fake.com/bq/project", nil, errors.New("BadAPIRequest  Please provide a request in the following pattern\nhttps://<<hostname>>/<<data-gcp-project-target>>/platfromid/<<platform parameter 1>>/<<platform parameter 2>>")},
-	{"https://fake.com/bq/project/dataset/view", &dataConnParam{platform: "bq", connectionParams: []string{"project", "dataset", "view"}}, nil},
-	{"https://fake.com/fs/project/collection/document", &dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}}, nil},
+	{"https://example.com/bp/project/dataset/view",
+		nil,
+		true,
+	},
+	{"https://example.com/bq",
+		nil,
+		false,
+	},
+	{"https://example.com/bq/project",
+		nil,
+		true,
+	},
+
+	{"https://example.com/bq/project/dataset/view",
+		&dataConnParam{platform: "bq", connectionParams: []string{"project", "dataset", "view"}},
+		false,
+	},
+	{"https://example.com/fs/project/collection/document",
+		&dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}},
+		false,
+	},
 }
 
 func TestParseDDURL(t *testing.T) {
-	for _, item := range parseTests {
-		req, _ := http.NewRequest("GET", item.sURL, nil)
+	for pos, item := range parseTests {
+		req, err := http.NewRequest("GET", item.in, nil)
+		if err != nil {
+			t.Errorf("parseDDURL(%v): error creating a fake http request", item.in)
+		}
+
 		pd, err := parseDDURL(req)
-		if item.connParam != nil {
-			if !reflect.DeepEqual(*pd, *item.connParam) {
-				t.Errorf("\nHave connection param:\n%+v\nWant connection param:\n%+v", *pd, *item.connParam)
+		if item.out != nil {
+			if !reflect.DeepEqual(*pd, *item.out) {
+				t.Errorf("parseDDURL(%v)\nHave connection param:\n%+v\nWant connection param:\n%+v", item.in, *pd, *item.out)
 			}
 		}
-		if item.err != nil {
-			if err.Error() != item.err.Error() {
-				t.Errorf("\nHave error:\n%s\nWant error:\n%s", err, item.err)
+		if item.isErr {
+			if err == nil {
+				t.Errorf("parseDDURL(%v) test:%v, An error was expected but no error was returned", item.in, pos)
 			}
 		}
 	}
 }
 
 func TestParseDataPlatfrom(t *testing.T) {
-	items := parseTests[3:5]
-	for _, item := range items {
-		req, _ := http.NewRequest("GET", item.sURL, nil)
-		pd, _ := parseDDURL(req)
-		dp, err := parseDataPlatform(context.Background(), pd)
+	var platformDetectTests = []struct {
+		sURL      string
+		connParam *dataConnParam
+		isErr     bool
+	}{
+		{"https://example.com/bq/project/dataset/view",
+			&dataConnParam{platform: "bq", connectionParams: []string{"project", "dataset", "view"}},
+			false,
+		},
+		{"https://example.com/fs/project/collection/document",
+			&dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}},
+			false,
+		},
+	}
+
+	for _, item := range platformDetectTests {
+		req, err := http.NewRequest("GET", item.sURL, nil)
 		if err != nil {
-			t.Errorf("%s", err.Error())
+			t.Errorf("parseDataPlatform() Error creating fake http request.")
 		}
+
+		pd, err := parseDDURL(req)
+		if err != nil {
+			t.Errorf("parseDataPlatform() Error parsing the parameters in the URL")
+		}
+
+		have, err := parseDataPlatform(context.Background(), pd)
+		if err != nil {
+			t.Errorf("parseDataPlatform(): Expecting no errors in the test but have %v", err)
+		}
+
 		if pd.platform == "bq" {
-			if _, ok := dp.(*bqDataPlatform); !ok {
-				t.Errorf("Have:%T Want:*bqDataPlatform", dp)
+			if _, ok := have.(*bqDataPlatform); !ok {
+				t.Errorf("parseDataPlatform(context,%+v) = %T Want:*bqDataPlatform", pd, have)
 			}
 		}
+
 		if pd.platform == "fs" {
-			if _, ok := dp.(*fsDataPlatform); !ok {
-				t.Errorf("Have:%T Want:*fsDataPlatform", dp)
+			if _, ok := have.(*fsDataPlatform); !ok {
+				t.Errorf("parseDataPlatform(context,%+v) = %T Want:*fsDataPlatform", pd, have)
 			}
 		}
 	}
