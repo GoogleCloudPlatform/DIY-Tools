@@ -25,7 +25,7 @@ steps:
   env: ['GO111MODULE=on','CGO_ENABLED=0','GOOS=linux','GOARCH=amd64']
   dir: 'DIY-Tools/gcp-data-drive/cmd/webserver'
 
-- name: 'gcr.io/cloud-builders/bash'
+- name: 'scrpt-runner'
   args: ['ls', '-lR']
 
 - name: 'gcr.io/cloud-builders/gcloud'
