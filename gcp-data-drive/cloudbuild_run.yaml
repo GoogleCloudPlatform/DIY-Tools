@@ -16,5 +16,8 @@ steps:
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone','--single-branch','--branch','refactor_for_cloud_functions','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
 
-- name: `gcr.io/cloud-builder/gcloud`
-  args: ['builds','submit','--tag','gcr.io/$PROJECT_ID/gcp-data-drive']
+- name: 'golang:1.13'
+  args: ['go','mod','download']
+
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  args: ['builds','submit','--tag','gcr.io/$PROJECT_ID/gcp-data-drive']

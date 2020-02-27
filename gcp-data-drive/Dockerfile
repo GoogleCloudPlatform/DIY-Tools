@@ -29,7 +29,7 @@ RUN go mod download
 COPY cmd/webserver ./
 
 # Build the binary.
-RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o webserver
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o gcp-data-drive
 
 # Use the official Alpine image for a lean production container.
 # https://hub.docker.com/_/alpine
@@ -38,7 +38,7 @@ FROM alpine:3
 RUN apk add --no-cache ca-certificates
 
 # Copy the binary to the production image from the builder stage.
-COPY --from=builder /app/webserver /webserver
+COPY --from=builder /app/gcp-data-drive /gcp-data-drive
 
 # Run the web service on container startup.
-CMD ["/webserver"]
+CMD ["/gcp-data-drive"]
