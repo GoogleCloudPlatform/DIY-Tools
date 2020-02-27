@@ -22,7 +22,7 @@ steps:
   dir: 'DIY-Tools/gcp-data-drive'
 
 - name: 'golang:1.13'
-  args: ['GO111MODULE=on','go','build','-mod=readonly','-v','-o','gcp-data-drive']
-
+  args: ['go','build','-mod=readonly','-v','-o','gcp-data-drive']
+  env: ['GO111MODULE=on']
 #- name: 'gcr.io/cloud-builders/gcloud'
 #  args: ['builds','submit','--tag','gcr.io/$PROJECT_ID/gcp-data-drive']
