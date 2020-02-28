@@ -26,7 +26,7 @@ FROM gcr.io/distroless/static
 # WORKDIR DIY-Tools/gcp-data-drive/cnd/webserver
 
 # Copy the binary to the production image from the builder stage.
-COPY --from=builder DIY-Tools/gcp-data-drive/cnd/webserver/gcp-data-drive /gcp-data-drive
+COPY --from=builder DIY-Tools/gcp-data-drive/cmd/webserver/gcp-data-drive /gcp-data-drive
 
 # Run the web service on container startup.
 CMD ["/gcp-data-drive"]
