@@ -25,8 +25,6 @@ steps:
   env: ['GO111MODULE=on','CGO_ENABLED=0','GOOS=linux','GOARCH=amd64']
   dir: 'DIY-Tools/gcp-data-drive/cmd/webserver'
 
-- name: 'ubuntu'
-  args: ['bash','ls', '-lR']
-
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['builds','submit','--tag','gcr.io/$PROJECT_ID/gcp-data-drive']
+  dir: 'DIY-Tools/gcp-data-drive'
