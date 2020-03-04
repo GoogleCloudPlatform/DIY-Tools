@@ -21,36 +21,36 @@ import (
 	"testing"
 )
 
-var parseTests = []struct {
-	in    string
-	out   *dataConnParam
-	isErr bool
-}{
-	{"https://example.com/bp/project/dataset/view",
-		nil,
-		true,
-	},
-	{"https://example.com/bq",
-		nil,
-		false,
-	},
-	{"https://example.com/bq/project",
-		nil,
-		true,
-	},
-
-	{"https://example.com/bq/project/dataset/view",
-		&dataConnParam{platform: "bq", connectionParams: []string{"project", "dataset", "view"}},
-		false,
-	},
-	{"https://example.com/fs/project/collection/document",
-		&dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}},
-		false,
-	},
-}
-
 func TestParseDDURL(t *testing.T) {
-	for pos, item := range parseTests {
+	var tests = []struct {
+		in    string
+		out   *dataConnParam
+		isErr bool
+	}{
+		{"https://example.com/bp/project/dataset/view",
+			nil,
+			true,
+		},
+		{"https://example.com/bq",
+			nil,
+			false,
+		},
+		{"https://example.com/bq/project",
+			nil,
+			true,
+		},
+
+		{"https://example.com/bq/project/dataset/view",
+			&dataConnParam{platform: "bq", connectionParams: []string{"project", "dataset", "view"}},
+			false,
+		},
+		{"https://example.com/fs/project/collection/document",
+			&dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}},
+			false,
+		},
+	}
+
+	for pos, item := range tests {
 		req, err := http.NewRequest("GET", item.in, nil)
 		if err != nil {
 			t.Errorf("parseDDURL(%v): error creating a fake http request", item.in)
