@@ -14,7 +14,7 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/git'
-  args: ['clone','--single-branch','--branch','refactor_for_cloud_functions','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
+  args: ['clone','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app','deploy','app.yaml','--project','$PROJECT_ID']
