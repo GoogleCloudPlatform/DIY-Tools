@@ -1,4 +1,4 @@
-module github.com/GoogleCloudPlatform/DIY-Tools/wasmui
+module github.com/GoogleCloudPlatform/DIY-Tools/go-wasm-ui/wasmui
 
 go 1.13
 
