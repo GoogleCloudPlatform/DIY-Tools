@@ -14,7 +14,7 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/git'
-  args: ['clone','--single-branch','${_GIT_SOURCE_BRANCH}','${_GIT_SOURCE_URL}']
+  args: ['clone','--single-branch','--branch','${_GIT_SOURCE_BRANCH}','${_GIT_SOURCE_URL}']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app','deploy','app.yaml','--project','$PROJECT_ID']
