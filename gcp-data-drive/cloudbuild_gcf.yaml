@@ -14,6 +14,8 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/git'
+# The gcloud command used to call this cloud build uses the --no-source switch which ensures the source builds correctly. As a result we need to
+# clone the specified source to preform the build.
   args: ['clone','--single-branch','--branch','${_GIT_SOURCE_BRANCH}','${_GIT_SOURCE_URL}']
 
 - name: 'gcr.io/cloud-builders/gcloud'
