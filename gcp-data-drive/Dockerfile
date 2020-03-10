@@ -31,6 +31,8 @@ COPY .  ./
 
 WORKDIR /app/cmd/webserver
 # Build the binary.
+# -mod=readonly switch is used to force failure of the build if the go.mod file needs changes to succeed.
+# see https://golang.org/cmd/go/#hdr-Preliminary_module_support for more details.
 RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=readonly -v -o gcp-data-drive
 
 # Use the Google Distroless image for a minimal container.
