@@ -14,7 +14,9 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/git'
-  args: ['clone','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
+# The gcloud command used to call this cloud build uses the --no-source switch which ensures the source build correctly. As a result we need to
+# clone the specified source to preform the build.
+  args: ['clone','--single-branch','--branch','${_GIT_SOURCE_BRANCH}','${_GIT_SOURCE_URL}']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app','deploy','app.yaml','--project','$PROJECT_ID']
