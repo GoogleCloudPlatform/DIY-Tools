@@ -12,19 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# steps:
-# - name: 'gcr.io/cloud-builders/git'
-#   args: ['clone','--single-branch','--branch','refactor_for_cloud_functions','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
-#
-# - name: 'golang:1.13'
-#   args: ['go','mod','download']
-#   dir: 'DIY-Tools/gcp-data-drive'
-#
-# - name: 'golang:1.13'
-#   args: ['go','build','-mod=readonly','-v','-o','gcp-data-drive']
-#   env: ['GO111MODULE=on','CGO_ENABLED=0','GOOS=linux','GOARCH=amd64']
-#   dir: 'DIY-Tools/gcp-data-drive/cmd/webserver'
-#
-# - name: 'gcr.io/cloud-builders/gcloud'
-#   args: ['builds','submit','--tag','gcr.io/$PROJECT_ID/gcp-data-drive']
-#   dir: 'DIY-Tools/gcp-data-drive'
+# Switch clone from https://github.com/SureSkills/DIY-Tools.git to
+# https://github.com/GoogleCloudPlatform/DIY-Tools
+
+steps:
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone','--single-branch','--branch','${_GIT_SOURCE_BRANCH}','${_GIT_SOURCE_URL}']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['builds','submit','--tag','gcr.io/$PROJECT_ID/gcp-data-drive']
+  dir: 'DIY-Tools/gcp-data-drive'
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run','deploy','gcp-data-drive','--image','gcr.io/$PROJECT_ID/gcp-data-drive','--platform','managed','--region','us-central1','--allow-unauthenticated']
+  dir: 'DIY-Tools/gcp-data-drive'

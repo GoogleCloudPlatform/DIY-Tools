@@ -14,7 +14,7 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/git'
-  args: ['clone','https://github.com/GoogleCloudPlatform/DIY-Tools.git']
+  args: ['clone','--single-branch','--branch','${_GIT_SOURCE_BRANCH}','${_GIT_SOURCE_URL}']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions','deploy','gcp-data-drive','--trigger-http','--runtime','go113','--entry-point','GetJSONData', '--project','$PROJECT_ID','--memory','2048']
