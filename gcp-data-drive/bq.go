@@ -37,7 +37,7 @@ type bqDataPlatform struct {
 	query *bigquery.Query
 }
 
-// getData contains the implementation detail for retriving and marshaling data from Bigqueyr into JSON.
+// getData contains the implementation detail for retriving and marshaling data from Bigquey into JSON.
 func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	// Call the read function to get the BQ interator of the Bigquery rows.
 	it, err := b.query.Read(ctx)
@@ -48,8 +48,8 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	// Create a map to hold our Bigquery results.
 	res := []map[string]bigquery.Value{}
 
-	// Add the Bigquery rows to a map string interface for marshaling.
-	// TODO: This implementation builds and map in memory. The dataset size must fit in memory. Consider
+	// Add the Bigquery rows to a slice of map string interface for marshaling.
+	// TODO: This implementation builds a slice of maps in memory. The dataset size must fit in memory. Consider
 	// providing callback fulfillment for large datasets leverging pub/sub and GCS.
 	for {
 		row := make(map[string]bigquery.Value)
@@ -75,7 +75,7 @@ func (b *bqDataPlatform) close() error {
 	return nil
 }
 
-// getBQInterface creates and populates the Bigquery platform client requirementa and returns
+// getBQInterface creates and populates the Bigquery platform client requirements and returns
 // a usable getData() method.
 func newBQPlatform(ctx context.Context, p *dataConnParam) (*bqDataPlatform, error) {
 	// Validate the connection params and return and error if they are not compatible.

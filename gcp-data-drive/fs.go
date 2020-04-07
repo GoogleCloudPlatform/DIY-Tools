@@ -38,7 +38,6 @@ type fsDataPlatform struct {
 
 // getData is the implementation specific to firestore for extracting a document of collection of documents.
 func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
-
 	// If the path is to a document, fulfill the request with the document.
 	if f.isDoc {
 		doc, err := f.client.Doc(f.itemPath).Get(ctx)
@@ -58,7 +57,7 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		return nil, err
 	}
 
-	// Create a map to hold our firestore result set.
+	// Create a slice of map string interface to hold our firestore result set.
 	res := []map[string]interface{}{}
 
 	for _, doc := range docs {
@@ -82,7 +81,6 @@ func (f *fsDataPlatform) close() error {
 }
 
 func newFSPlatform(ctx context.Context, p *dataConnParam) (*fsDataPlatform, error) {
-
 	// Validate the connection parameters.
 	if err := validateFSConnectionParams(p); err != nil {
 		return nil, err
