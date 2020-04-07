@@ -4,7 +4,7 @@ GCP Data Drive leverages a composable url path to retrieve data in JSON formats 
 ## Installation
 
 ### Deploy to multiple compute platforms  
-:info: Google Cloud SDK needs to be installed and initialized to preform these actions.
+Google Cloud SDK must be installed and initialized to preform these actions.
 
 #### Cloud Run
 ```bash
