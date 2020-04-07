@@ -2,7 +2,7 @@
 GCP Data Drive leverages a composable url path to retrieve data in JSON formats from supported GCP data platforms. Bigquery and Firestore are currently supported.
 
 ## Installation
-Clone this repo.
+Clone this repo. Change directory to gcp-data-drive.
 
 ### Deploy to multiple compute platforms  
 Google Cloud SDK must be installed and initialized to preform these actions. Edit the PROJECT_ID variable as required.
@@ -11,7 +11,7 @@ Google Cloud SDK must be installed and initialized to preform these actions. Edi
 ```bash
 PROJECT_ID=YourProjectID
 gcloud builds submit --config cloudbuild_run.yaml \
-   --project $PROJECT_ID --no-source \
+--project $PROJECT_ID --no-source \
 --substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
 ```
 
@@ -19,7 +19,7 @@ gcloud builds submit --config cloudbuild_run.yaml \
 ```bash
 PROJECT_ID=YourProjectID
 gcloud builds submit --config cloudbuild_gcf.yaml \
-   --project $PROJECT_ID --no-source \
+--project $PROJECT_ID --no-source \
 --substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
 ```
 
@@ -30,8 +30,8 @@ gcloud builds submit --config cloudbuild_gcf.yaml \
 ```bash
 PROJECT_ID=YourProjectID
 gcloud builds submit  --config cloudbuild_appengine.yaml \
-   --project $PROJECT_ID --no-source \
-   --substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
+--project $PROJECT_ID --no-source \
+--substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
 ```
 
 ## Web API Composition
