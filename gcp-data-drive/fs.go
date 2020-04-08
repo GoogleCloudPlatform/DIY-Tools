@@ -57,7 +57,7 @@ func (f *fsDataPlatform) getData(ctx context.Context) ([]byte, error) {
 		return nil, err
 	}
 
-	// Create a slice of map string interface to hold our firestore result set.
+	// Create a slice of maps to hold the firestore result set.
 	res := []map[string]interface{}{}
 
 	for _, doc := range docs {

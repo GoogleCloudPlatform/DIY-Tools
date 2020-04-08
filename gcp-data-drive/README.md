@@ -3,9 +3,13 @@ GCP Data Drive leverages a composable url path to retrieve data in JSON formats 
 
 ## Installation
 Clone this repo. Change directory to gcp-data-drive.
+```bash
+git clone https://github.com/GoogleCloudPlatform/DIY-Tools
+cd DIY-Tools/gcp-data-drive
+```
 
 ### Deploy to multiple compute platforms  
-Google Cloud SDK must be installed and initialized to preform these actions. Edit the PROJECT_ID variable as required.
+[Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts) must be installed and initialized to preform these actions. Edit the PROJECT_ID variable as required.
 
 #### Cloud Run
 ```bash
