@@ -25,7 +25,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-// bqDataPlatform contains the necessary information to connect and get data from Bigquery platfrom.
+// bqDataPlatform contains the necessary information to connect and get data from BigQuery platfrom.
 type bqDataPlatform struct {
 	// client is a pointer to a BQ client.
 	client *bigquery.Client
@@ -33,22 +33,22 @@ type bqDataPlatform struct {
 	// dataQuery is the base query string in ANSI SQL.
 	dataQuery string
 
-	// query is  a pointer to the bigquery query struct which is composed from the dataQuery.
+	// query is  a pointer to the BigQuery query struct which is composed from the dataQuery.
 	query *bigquery.Query
 }
 
-// getData contains the implementation detail for retriving and marshaling data from Bigquery into JSON.
+// getData contains the implementation detail for retriving and marshaling data from BigQuery into JSON.
 func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
-	// Call the read function to get the BQ interator of the Bigquery rows.
+	// Call the read function to get the BQ interator of the BigQuery rows.
 	it, err := b.query.Read(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a map to hold our Bigquery results.
+	// Create a map to hold our BigQuery results.
 	res := []map[string]bigquery.Value{}
 
-	// Add the Bigquery rows to a slice of maps for marshaling.
+	// Add the BigQuery rows to a slice of maps for marshaling.
 	// TODO: This implementation builds a slice of maps in memory. The dataset size must fit in memory. Consider
 	// providing callback fulfillment for large datasets leverging pub/sub and GCS.
 	for {
@@ -67,7 +67,7 @@ func (b *bqDataPlatform) getData(ctx context.Context) ([]byte, error) {
 	return json.Marshal(&res)
 }
 
-// close will close the client connection to bigquery
+// close will close the client connection to BigQuery
 func (b *bqDataPlatform) close() error {
 	if err := b.client.Close(); err != nil {
 		return err
@@ -75,7 +75,7 @@ func (b *bqDataPlatform) close() error {
 	return nil
 }
 
-// newBQPlatform creates and populates the Bigquery platform client requirements and returns
+// newBQPlatform creates and populates the BigQuery platform client requirements and returns
 // a type that satisfies the dataplatform interface.
 func newBQPlatform(ctx context.Context, p *dataConnParam) (*bqDataPlatform, error) {
 	// Validate the connection params and return and error if they are not compatible.
@@ -83,7 +83,7 @@ func newBQPlatform(ctx context.Context, p *dataConnParam) (*bqDataPlatform, erro
 		return nil, err
 	}
 
-	// Create the Bigquery client.
+	// Create the BigQuery client.
 	c, err := bigquery.NewClient(ctx, p.connectionParams[0])
 	if err != nil {
 		return nil, err
