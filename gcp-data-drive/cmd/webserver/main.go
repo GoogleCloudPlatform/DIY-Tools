@@ -23,7 +23,6 @@ import (
 )
 
 func main() {
-
 	// Register the initial HTTP handler.
 	http.HandleFunc("/", gcpdatadrive.GetJSONData)
 

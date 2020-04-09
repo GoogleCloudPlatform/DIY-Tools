@@ -2,16 +2,40 @@
 GCP Data Drive leverages a composable url path to retrieve data in JSON formats from supported GCP data platforms. Bigquery and Firestore are currently supported.
 
 ## Installation
-### Deploy to App Engine
-The shell script below can be executed from a bash shell.
+Clone this repo. Change directory to gcp-data-drive.
+```bash
+git clone https://github.com/GoogleCloudPlatform/DIY-Tools
+cd DIY-Tools/gcp-data-drive
+```
 
-:warning: Edit the deploy script and app.yaml for your needs. Used as is, the command below will deploy and new version of the default App Engine service.
+### Deploy to multiple compute platforms  
+[Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts) must be installed and initialized to preform these actions. Edit the PROJECT_ID variable as required.
+
+#### Cloud Run
+```bash
+PROJECT_ID=YourProjectID
+gcloud builds submit --config cloudbuild_run.yaml \
+--project $PROJECT_ID --no-source \
+--substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
+```
+
+#### Cloud Functions
+```bash
+PROJECT_ID=YourProjectID
+gcloud builds submit --config cloudbuild_gcf.yaml \
+--project $PROJECT_ID --no-source \
+--substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
+```
+
+
+#### Appengine
+:warning: Edit the deploy script and app.yaml for your needs. Used as is, the command below will deploy and new version of the default App Engine service. Fork this repo to customize your app.yaml configuration.
 
 ```bash
-git clone https://github.com/GoogleCloudPlatform/DIY-Tools.git
-cd DIY-Tools/gcp-data-drive
-./appengine_deploy.sh {gcp_projectid}
-
+PROJECT_ID=YourProjectID
+gcloud builds submit  --config cloudbuild_appengine.yaml \
+--project $PROJECT_ID --no-source \
+--substitutions=_GIT_SOURCE_BRANCH="master",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
 ```
 
 ## Web API Composition

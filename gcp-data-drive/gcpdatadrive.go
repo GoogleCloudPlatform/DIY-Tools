@@ -29,7 +29,6 @@ type dataPlatform interface {
 }
 
 func GetJSONData(w http.ResponseWriter, r *http.Request) {
-
 	// Parse the request URL.
 	conParams, err := parseDDURL(r)
 	if err != nil {
@@ -62,7 +61,6 @@ func GetJSONData(w http.ResponseWriter, r *http.Request) {
 
 // parseDataPlatform detects the requested data platform and returns an interface to specified data platform.
 func parseDataPlatform(ctx context.Context, p *dataConnParam) (dataPlatform, error) {
-
 	switch p.platform {
 	case "bq":
 		return newBQPlatform(ctx, p)
@@ -86,7 +84,6 @@ type dataConnParam struct {
 
 // parseDDURL detects and shapes the data platfrom request.
 func parseDDURL(r *http.Request) (*dataConnParam, error) {
-
 	// Trimming the leading prefix and split the path in to an array.
 	location := strings.Split(strings.TrimPrefix(r.URL.Path, "/"), "/")
 	if len(location) < 3 {
