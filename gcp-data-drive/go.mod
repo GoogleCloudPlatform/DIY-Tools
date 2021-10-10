@@ -13,7 +13,7 @@
 // limitations under the License.
 module github.com/GoogleCloudPlatform/DIY-Tools/gcp-data-drive/gcpdatadrive
 
-go 1.13
+go 1.16
 
 require (
 	cloud.google.com/go/bigquery v1.0.1
