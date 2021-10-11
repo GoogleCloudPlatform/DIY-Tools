@@ -11,6 +11,14 @@ cd DIY-Tools/gcp-data-drive
 ### Deploy to multiple compute platforms  
 [Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts) must be installed and initialized to preform these actions. Edit the PROJECT_ID variable as required.
 
+#### Cloud Container Registry Only
+```bash
+PROJECT_ID=YourProjectID
+gcloud builds submit --config cloudbuild_reg_only.yaml \
+--project $PROJECT_ID --no-source \
+--substitutions=_GIT_SOURCE_BRANCH="reg-only",_GIT_SOURCE_URL="https://github.com/GoogleCloudPlatform/DIY-Tools"
+```
+
 #### Cloud Run
 ```bash
 PROJECT_ID=YourProjectID
