@@ -68,9 +68,11 @@ func parseDataPlatform(ctx context.Context, p *dataConnParam) (dataPlatform, err
 	case "fs":
 		return newFSPlatform(ctx, p)
 
+	case "cloudsql":
+		return newSQLPlatform(ctx, p)
 	}
 
-	return nil, fmt.Errorf(`unknown data platform %q: bigquery ("bq") and firestore ("fs") supported`, p.platform)
+	return nil, fmt.Errorf(`unknown data platform %q: bigquery ("bq"), firestore ("fs"), and cloudsql are supported`, p.platform)
 }
 
 // dataConnParam provides parsed parameters from the requested URL path.
@@ -90,14 +92,14 @@ func parseDDURL(r *http.Request) (*dataConnParam, error) {
 		return nil, errors.New("BadAPIRequest  Please provide a request in the following pattern\nhttps://<<hostname>>/<<data-gcp-project-target>>/platfromid/<<platform parameter 1>>/<<platform parameter 2>>")
 	}
 
-	// This switch statement is used to allow easy implementation of additional dat platform providers.
+	// This switch statement is used to allow easy implementation of additional data platform providers.
 	switch location[0] {
-	case "bq", "fs":
+	case "bq", "fs", "cloudsql":
 		return &dataConnParam{
 			platform:         location[0],
 			connectionParams: location[1:],
 		}, nil
 
 	}
-	return nil, errors.New(`UnknownDataPlatform: bigquery ("bq") and firestore ("fs") are the only support platform types at this time`)
+	return nil, errors.New(`UnknownDataPlatform: bigquery ("bq"), firestore ("fs") and cloudsql ("cloudsql") are the only support platform types at this time`)
 }

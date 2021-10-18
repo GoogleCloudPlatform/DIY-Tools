@@ -18,6 +18,7 @@ go 1.16
 require (
 	cloud.google.com/go/bigquery v1.0.1
 	cloud.google.com/go/firestore v1.1.1
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/go-cmp v0.3.0
 	google.golang.org/api v0.14.0
 )

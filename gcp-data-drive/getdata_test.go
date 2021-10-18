@@ -48,6 +48,11 @@ func TestParseDDURL(t *testing.T) {
 			&dataConnParam{platform: "fs", connectionParams: []string{"project", "collection", "document"}},
 			false,
 		},
+
+		{"https://example.com/cloudsql/project/dbtype/instance/dbname/table",
+			&dataConnParam{platform: "cloudsql", connectionParams: []string{"project", "dbtype", "instance", "dbname", "table"}},
+			false,
+		},
 	}
 
 	for pos, item := range tests {
@@ -76,6 +81,7 @@ func TestParseDataPlatfrom(t *testing.T) {
 	}{
 		{"https://example.com/bq/project/dataset/view"},
 		{"https://example.com/fs/project/collection/document"},
+		{"https://example.com/cloudsql/project/mysql/instance/dbname/table"},
 	}
 
 	for _, item := range platformDetectTests {
@@ -103,6 +109,12 @@ func TestParseDataPlatfrom(t *testing.T) {
 		if pd.platform == "fs" {
 			if _, ok := have.(*fsDataPlatform); !ok {
 				t.Errorf("parseDataPlatform(context,%+v) = %T Want:*fsDataPlatform", pd, have)
+			}
+		}
+
+		if pd.platform == "cloudsql" {
+			if _, ok := have.(*sqlDataPlatform); !ok {
+				t.Errorf("parseDataPlatform(context,%+v) = %T Want:*sqlDataPlatform", pd, have)
 			}
 		}
 	}
