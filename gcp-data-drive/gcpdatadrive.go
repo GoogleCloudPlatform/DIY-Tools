@@ -30,8 +30,15 @@ type dataPlatform interface {
 
 func GetJSONData(w http.ResponseWriter, r *http.Request) {
 	// Adding Health Check
-	if r.URL.Path == "health" {
+	if r.URL.Path == "/health" {
 		w.Write([]byte("OK"))
+		return
+	}
+
+	// Adding Health Check
+	if r.URL.Path == "/" {
+		w.Write([]byte("OK"))
+		return
 	}
 
 	// Parse the request URL.
