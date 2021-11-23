@@ -23,5 +23,5 @@ steps:
   dir: 'DIY-Tools/gcp-data-drive'
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['run','deploy','gcp-data-drive','--image','gcr.io/$PROJECT_ID/gcp-data-drive','--platform','managed','--region','us-central1','--allow-unauthenticated']
+  args: ['run','deploy','gcp-data-drive','--image','gcr.io/$PROJECT_ID/gcp-data-drive','--platform','managed','--region','us-central1','--allow-unauthenticated', '--max-instances', '5']
   dir: 'DIY-Tools/gcp-data-drive'
