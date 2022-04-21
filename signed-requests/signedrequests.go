@@ -80,7 +80,7 @@ func main() {
 	suCmd := flag.NewFlagSet("sign-url", flag.ExitOnError)
 	suKey := suCmd.String("key", "private.key", "file name from which to read the private key")
 	suKeyset := suCmd.String("keyset", "", "the name of the EdgeCacheKeyset to use.  Must not be the empty string.")
-	suURL := suCmd.String("url", "", "the URL to sign, including protocol.  Must not be the exmpty string.  For example: http://example.com/path/to/content")
+	suURL := suCmd.String("url", "", "the URL to sign, including protocol.  Must not be the empty string.  For example: http://example.com/path/to/content")
 	suTTL := suCmd.Duration("ttl", time.Hour, "duration the signed request is valid")
 
 	spCmd := flag.NewFlagSet("sign-prefix", flag.ExitOnError)

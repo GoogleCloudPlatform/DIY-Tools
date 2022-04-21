@@ -1,12 +1,10 @@
 # signedrequests
 
-SignedRequest is tool for assisting developer in setting up their Google Cloud Media Edge setup. SignedRequest is written in Go and uses only Go in built packages. This tool provides users with following functionalities
-
-## Features
+SignedRequest is written in Go and uses only Go in built packages. This tool provides users with following features
 
 1. Generates Public and Private Keys using Ed25519 Algorirthm
 2. Generate a base64 format for Public Keys
-3. Generate 
+3. Generate a signed request url with signature
 
 
 ## How to?
@@ -21,7 +19,7 @@ bash-3.2$ go build signedrequests.go
 Alternatively one can use `go run singedrequests.go` to work directly with the script itself.
 
 
-To check for help
+#### Help
 
 ```bash
 bash-3.2$ ./signedrequests --help
@@ -30,6 +28,7 @@ Usage: ./signedrequests subcommand [subcommand args...]
 where: subcommand is one of generate-keys, encode-key, sign-url, sign-prefix, help
 ```
 
+#### KeyPairs
 
 To Ed25519 generate key pairs, use following command
 ```bash
@@ -57,6 +56,7 @@ bash-3.2$ ./signedrequests encode-key
 3j-vSlCYbpEViynAdfF4FXqG5csXqObthlEiUxKYBY8
 ```
 
+#### Signed Request URL
 
 To generate a signed request url,
 
@@ -64,4 +64,6 @@ To generate a signed request url,
 bash-3.2$ ./signedrequests sign-url --url "http://example.com/bucket/sunny.jpg" --keyset example_keyset
 http://example.com/bucket/sunny.jpg?Expires=1650542063&KeyName=example_keyset&Signature=3NOwNjha5yttobSKg3BveEzeBzTXQA3l4kij4QBJ0MT9I8QYrZQ0Sqyag4rwgU4_VcQTOaMmfQl0v9FOsmyqDw
 ```
+The default time validity included is 1hr. For more details check `./signedrequests sign-url -h`
+
 
