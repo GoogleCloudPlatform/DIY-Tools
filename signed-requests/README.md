@@ -1,14 +1,20 @@
 # signedrequests
 
-SignedRequest is written in Go and uses only Go in built packages. This tool provides users with following features
+SignedRequest is written in Go and uses only Go in built packages. This tool for working with signedrequests urls and it provides users with following features
 
 1. Generates Public and Private Keys using Ed25519 Algorirthm
 2. Generate a base64 format for Public Keys
 3. Generate a signed request url with signature
 
 
-## How to?
+## Installation
+Clone this repo. Change directory to gcp-data-drive.
+```bash
+git clone https://github.com/GoogleCloudPlatform/DIY-Tools
+cd DIY-Tools/signed-requests/
+```
 
+## How to use?
 
 To build `signedrequests` tool from script. For linux based environments, the following command will generate a runnable script name `signedrequests` in the same location.
 
@@ -67,3 +73,8 @@ http://example.com/bucket/sunny.jpg?Expires=1650542063&KeyName=example_keyset&Si
 The default time validity included is 1hr. For more details check `./signedrequests sign-url -h`
 
 
+
+## Contributions
+
+
+For contributions, please check [here](../contributing.md)
