@@ -25,6 +25,7 @@ import (
 func main() {
 	// Register the initial HTTP handler.
 	http.HandleFunc("/", gcpdatadrive.GetJSONData)
+	http.HandleFunc("/")
 
 	port := os.Getenv("PORT")
 	if port == "" {
