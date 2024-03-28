@@ -36,6 +36,7 @@ WORKDIR /app/cmd/webserver
 RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=readonly -v -o gcp-data-drive
 
 # Use the Google Distroless image for a minimal container.
+FROM gcr.io/distro-server-1/static-docker-1
 FROM gcr.io/distroless/static
 
 # Copy the binary to the production image from the builder stage.
